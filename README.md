@@ -1,4 +1,4 @@
-# EAModelValidator
+# EA Model Validator Framework
 
 ## About
 Extensible Model Validator Framework for Enterprise Architect is designed to validate models besides seamless integration with the Enterprise Architect tool.
