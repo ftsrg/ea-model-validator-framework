@@ -1,0 +1,10 @@
+Z:\EA_Addin_Model_Validator\EA_Addin_Model_Validator\bin\Debug\EA_Addin_Model_Validator.dll
+Z:\EA_Addin_Model_Validator\EA_Addin_Model_Validator\bin\Debug\EA_Addin_Model_Validator.pdb
+Z:\EA_Addin_Model_Validator\EA_Addin_Model_Validator\obj\Debug\EA_Addin_Model_Validator.csproj.AssemblyReference.cache
+Z:\EA_Addin_Model_Validator\EA_Addin_Model_Validator\obj\Debug\EA_Addin_Model_Validator.ModelValidatorHelp.resources
+Z:\EA_Addin_Model_Validator\EA_Addin_Model_Validator\obj\Debug\EA_Addin_Model_Validator.csproj.GenerateResource.cache
+Z:\EA_Addin_Model_Validator\EA_Addin_Model_Validator\obj\Debug\EA_Addin_Model_Validator.csproj.CoreCompileInputs.cache
+Z:\EA_Addin_Model_Validator\EA_Addin_Model_Validator\obj\Debug\EA_Addin_Model_Validator.dll
+Z:\EA_Addin_Model_Validator\EA_Addin_Model_Validator\obj\Debug\EA_Addin_Model_Validator.pdb
+Z:\EA_Addin_Model_Validator\EA_Addin_Model_Validator\bin\Debug\EA_Addin_Model_Validator.tlb
+Z:\EA_Addin_Model_Validator\EA_Addin_Model_Validator\obj\Debug\EA_Addin_Model_Validator.ModelValidatorUserControl.resources

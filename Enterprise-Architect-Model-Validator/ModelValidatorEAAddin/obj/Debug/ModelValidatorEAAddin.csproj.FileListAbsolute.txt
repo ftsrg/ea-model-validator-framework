@@ -1,0 +1,14 @@
+Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorEAAddin\obj\Debug\ModelValidatorEAAddin.csproj.AssemblyReference.cache
+Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorEAAddin\obj\Debug\ModelValidatorEAAddin.csproj.GenerateResource.cache
+Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorEAAddin\obj\Debug\ModelValidatorEAAddin.csproj.CoreCompileInputs.cache
+Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorEAAddin\bin\Debug\ModelValidatorLibrary.dll
+Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorEAAddin\bin\Debug\ModelValidatorLibrary.pdb
+Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorEAAddin\obj\Debug\ModelValidatorEAAddin.csproj.CopyComplete
+Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorEAAddin\bin\Debug\ModelValidatorEAAddin.dll
+Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorEAAddin\bin\Debug\ModelValidatorEAAddin.pdb
+Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorEAAddin\bin\Debug\ModelValidatorEAAddin.tlb
+Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorEAAddin\obj\Debug\ModelValidatorEAAddin.dll
+Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorEAAddin\obj\Debug\ModelValidatorEAAddin.pdb
+Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorEAAddin\obj\Debug\ModelValidatorEAAddin.ModelValidatorHelp.resources
+Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorEAAddin\obj\Debug\ModelValidatorEAAddin.ModelValidatorUserControl.resources
+Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorEAAddin\obj\Debug\ModelValidatorEAAddin.Properties.Resources.resources

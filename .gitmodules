@@ -1,0 +1,3 @@
+[submodule "Enterprise-Architect-Add-in-Framework"]
+	path = Enterprise-Architect-Add-in-Framework
+	url = git@github.com:GeertBellekens/Enterprise-Architect-Add-in-Framework.git

@@ -1,0 +1,2 @@
+-- Starting conditions for methods for which no method has been found.
+select o.*, c.OperationID as OpID, c.PreCondition from t_operationpres c left join t_operation o on c.OperationID = o.OperationID where o.OperationID is null

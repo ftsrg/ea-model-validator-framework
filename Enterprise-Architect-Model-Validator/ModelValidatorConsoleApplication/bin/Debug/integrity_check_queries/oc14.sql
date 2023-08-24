@@ -1,0 +1,2 @@
+-- Orphaned items that have an incorrectly selected parent item. (Orphaned object)
+Select child.Object_ID as ID, child.Name as ObjectName, child.Object_Type, parent.Package_ID as PkgID FROM t_object child, t_object parent where child.ParentID = parent.Object_ID and child.Package_ID <> parent.Package_ID

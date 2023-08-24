@@ -1,0 +1,2 @@
+-- Attributes of an element of type'Requirement'[internal] that are not assigned to any element.
+select f.Object_ID, f.Requirement from t_objectrequires f left join t_object o on f.Object_ID = o.Object_ID where o.Object_ID is null

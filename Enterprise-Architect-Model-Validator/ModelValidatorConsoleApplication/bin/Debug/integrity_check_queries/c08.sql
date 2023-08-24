@@ -1,0 +1,2 @@
+-- Checks foreign key relationships for accuracy.
+SELECT t_connector.Connector_ID FROM t_connector, t_operation WHERE t_connector.Start_Object_ID = t_operation.Object_ID AND t_operation.Stereotype = 'FK' GROUP BY Connector_ID

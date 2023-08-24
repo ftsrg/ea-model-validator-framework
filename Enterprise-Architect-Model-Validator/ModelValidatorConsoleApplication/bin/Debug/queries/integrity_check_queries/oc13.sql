@@ -1,0 +1,2 @@
+-- Missing objects to be displayed in missing diagrams and diagrams for which there are objects to be displayed. (Invalid object geometry. ITEM: Missing Diagram AND/OR Invalid object geometry. ITEM: Missing Object)
+select Instance_ID, 'Missing Object' as Problem from t_diagramobjects l left join t_object c on l.Object_ID = c.Object_ID where  c.Object_ID is null  UNION select Instance_ID, 'Missing Diagram' as Problem from t_diagramobjects l left join t_diagram d on l.Diagram_ID = d.Diagram_ID where  d.Diagram_ID is null

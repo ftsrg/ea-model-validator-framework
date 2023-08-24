@@ -1,0 +1,2 @@
+-- Attributes of a'Scenario' element that are not assigned to any element.
+select f.Object_ID, f.Scenario from t_objectscenarios f left join t_object o on f.Object_ID = o.Object_ID where o.Object_ID is null

@@ -1,0 +1,2 @@
+-- Tags assigned to relationships for which there is no relationship. (Invalid connector tag)
+select * from t_connectortag c left join t_connector o on c.ElementID = o.Connector_ID where o.Connector_ID is null

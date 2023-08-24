@@ -1,0 +1,2 @@
+-- Restrictions assigned to relationships for which there is no relationship.
+select * from t_connectorconstraint c left join t_connector o on c.ConnectorID = o.Connector_ID where o.Connector_ID is null
