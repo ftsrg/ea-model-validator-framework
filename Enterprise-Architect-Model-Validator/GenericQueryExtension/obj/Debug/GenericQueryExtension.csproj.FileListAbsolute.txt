@@ -7,3 +7,12 @@ Z:\ea-model-validator\Enterprise-Architect-Model-Validator\GenericQueryExtension
 Z:\ea-model-validator\Enterprise-Architect-Model-Validator\GenericQueryExtension\obj\Debug\GenericQueryExtension.csproj.CopyComplete
 Z:\ea-model-validator\Enterprise-Architect-Model-Validator\GenericQueryExtension\obj\Debug\GenericQueryExtension.dll
 Z:\ea-model-validator\Enterprise-Architect-Model-Validator\GenericQueryExtension\obj\Debug\GenericQueryExtension.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericQueryExtension\obj\Debug\GenericQueryExtension.csproj.AssemblyReference.cache
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericQueryExtension\obj\Debug\GenericQueryExtension.csproj.CoreCompileInputs.cache
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericQueryExtension\obj\Debug\GenericQueryExtension.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericQueryExtension\obj\Debug\GenericQueryExtension.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericQueryExtension\bin\Debug\GenericQueryExtension.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericQueryExtension\bin\Debug\GenericQueryExtension.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericQueryExtension\bin\Debug\ModelValidatorLibrary.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericQueryExtension\bin\Debug\ModelValidatorLibrary.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericQueryExtension\obj\Debug\GenericQueryExtension.csproj.CopyComplete

@@ -22,11 +22,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Data;
 
-<<<<<<< HEAD
 namespace GenericExtension
-=======
-namespace SpaceshipExtension
->>>>>>> f1257d9ae6c543270db1b2299889ef86e5cc5a10
 {
     [Export(typeof(Corrector))]
     [ExportMetadata("Name", "SysML")]

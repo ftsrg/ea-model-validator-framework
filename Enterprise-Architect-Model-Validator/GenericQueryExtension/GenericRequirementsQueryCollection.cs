@@ -20,11 +20,7 @@ using ModelValidatorLibrary;
 using System;
 using System.ComponentModel.Composition;
 
-<<<<<<< HEAD
 namespace GenericExtension
-=======
-namespace SpaceshipExtension
->>>>>>> f1257d9ae6c543270db1b2299889ef86e5cc5a10
 {
     [Export(typeof(IQueryCollection))]
     [ExportMetadata("Name", "SysML Requirements")]
