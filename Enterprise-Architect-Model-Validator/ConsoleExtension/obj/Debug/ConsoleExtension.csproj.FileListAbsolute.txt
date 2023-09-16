@@ -17,3 +17,12 @@ Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ConsoleExtension\obj\
 Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ConsoleExtension\obj\Debug\ConsoleExtension.csproj.CopyComplete
 Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ConsoleExtension\obj\Debug\ConsoleExtension.dll
 Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ConsoleExtension\obj\Debug\ConsoleExtension.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ConsoleExtension\bin\Debug\ConsoleExtension.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ConsoleExtension\bin\Debug\ConsoleExtension.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ConsoleExtension\bin\Debug\ModelValidatorLibrary.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ConsoleExtension\bin\Debug\ModelValidatorLibrary.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ConsoleExtension\obj\Debug\ConsoleExtension.csproj.AssemblyReference.cache
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ConsoleExtension\obj\Debug\ConsoleExtension.csproj.CoreCompileInputs.cache
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ConsoleExtension\obj\Debug\ConsoleExtension.csproj.CopyComplete
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ConsoleExtension\obj\Debug\ConsoleExtension.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ConsoleExtension\obj\Debug\ConsoleExtension.pdb

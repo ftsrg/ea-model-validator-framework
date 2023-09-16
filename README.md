@@ -9,7 +9,7 @@ Additionally, the framework offers _result exportation_ and _auto-correction_ fu
 ## Installation
 To use as an Enterprise Architect Add-In:
 1. Build the whole whole solution in the [`Enterprise-Architect-Model-Validator`](/Enterprise-Architect-Model-Validator) folder (tested in Visual Studio 2022)
-2. Copy the DLLs of the core projects (`ModelValidatorLibrary`, `ModelValidatorEAAddin`) into the folder of Enterprise Architect tool (e.g. `c:\Program Files (x86)\Sparx Systems\EA`) 
+2. Copy the DLLs of the core projects (`ModelValidatorLibrary`, `ModelValidatorEAAddin`) into the folder of Enterprise Architect tool (e.g. `c:\Program Files (x86)\Sparx Systems\EA`)
 3. Create `modelValidatorExtensions` folder in the folder of Enterprise Architect
 4. Create new extensions or use the provided ones (see `Enterprise-Architect-Model-Validator` folder, `EnterpriseArchitectExtension`, `GenericExtension`, `GenericQueryExtension`, `SpaceshipExtension`) and copy these into the previously created `modelValidatorExtensions` folder
 5. Create `queries` folder in the folder of Enterprise Architect
@@ -20,7 +20,7 @@ To use as an Enterprise Architect Add-In:
 
 To use as a console application:
 1. Build the whole whole solution in the [`Enterprise-Architect-Model-Validator`](/Enterprise-Architect-Model-Validator) folder (tested in Visual Studio 2022)
-2. Copy the DLLs of the core projects (`ModelValidatorLibrary`, `ModelValidatorEAAddin`) and the executable of the console application (`ModelValidatorConsoleApplication`) into the desired folder 
+2. Copy the DLLs of the core projects (`ModelValidatorLibrary`, `ModelValidatorEAAddin`) and the executable of the console application (`ModelValidatorConsoleApplication`) into the desired folder
 3. Create `modelValidatorExtensions` folder in the desired folder
 4. Create new extensions or use the provided ones (see [`sql_queries`](/Enterprise-Architect-Model-Validator-Extensions/sql_queries) folder, `ConsoleExtension`, `GenericExtension`, `GenericQueryExtension`, `SpaceshipExtension`) and copy these into the previously created `modelValidatorExtensions` folder
 5. Create `queries` folder in the desired folder
@@ -43,4 +43,5 @@ You shall provide some arguments for the executable:
 ## Contributors
 - [Gergely Ulicska](https://github.com/ulicskagergo)
 
-Note, that submodule [`Enterprise-Architect-Add-in-Framework`](https://github.com/GeertBellekens/Enterprise-Architect-Add-in-Framework/tree/a3d7466a26c8f6d8d38b20c92223508a5f8b603c) is forked from the repository of [Geert Bellekens](https://github.com/GeertBellekens): [Enterprise-Architect-Add-in-Framework](https://github.com/GeertBellekens/Enterprise-Architect-Add-in-Framework)
+Note, that submodule [`Enterprise-Architect-Add-in-Framework`](https://github.com/GeertBellekens/Enterprise-Architect-Add-in-Framework/tree/a3d7466a26c8f6d8d38b20c92223508a5f8b603c) is forked from the repository of [Geert Bellekens](https://github.com/GeertBellekens): [Enterprise-Architect-Add-in-Framework](https://github.com/GeertBellekens/Enterprise-Architect-Add-in-Framework).
+Note, that the original codebase of used SQL generator can be found [here](https://app.assembla.com/spaces/ocltosql/wiki).

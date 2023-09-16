@@ -1,0 +1,1485 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Antlr3.StringTemplate</name>
+    </assembly>
+    <members>
+        <member name="T:Antlr3.ST.IAttributeRenderer">
+            <summary>
+              This interface describes an object that knows how to format or otherwise
+              render an object appropriately.  Usually this is used for locale changes
+              for objects such as Date and floating point numbers...  You can either
+              have an object that is sensitive to the locale or have a different object
+              per locale.
+              </summary>
+            
+              <remarks>
+              Each template may have a renderer for each object type or can default
+              to the group's renderer or the super group's renderer if the group doesn't
+              have one.
+            
+              The toString(Object,String) method is used when the user uses the
+              format option: $o; format="f"$.  It checks the formatName and applies the
+              appropriate formatting.  If the format string passed to the renderer is
+              not recognized then simply call toString().  @since 3.1
+              </remarks>
+        </member>
+        <member name="T:Antlr3.ST.AutoIndentWriter">
+            <summary>
+              Essentially a char filter that knows how to auto-indent output
+              by maintaining a stack of indent levels.  I set a flag upon newline
+              and then next nonwhitespace char resets flag and spits out indention.
+              The indent stack is a stack of strings so we can repeat original indent
+              not just the same number of columns (don't have to worry about tabs vs
+              spaces then).
+              </summary>
+            
+              <remarks>
+              Anchors are char positions (tabs won't work) that indicate where all
+              future wraps should justify to.  The wrap position is actually the
+              larger of either the last anchor or the indentation level.
+            
+              This is a filter on a Writer.
+            
+              \n is the proper way to say newline for options and templates.
+              Templates can mix them but use \n for sure and options like
+              wrap="\n". ST will generate the right thing. Override the default (locale)
+              newline by passing in a string to the constructor.
+              </remarks>
+        </member>
+        <member name="F:Antlr3.ST.AutoIndentWriter._indents">
+            <summary>
+            stack of indents; use List as it's much faster than Stack. Grows
+            from 0..n-1.  List&lt;String&gt;
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.AutoIndentWriter._anchors">
+            <summary>
+            Stack of integer anchors (char positions in line); avoid Integer
+            creation overhead.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.AutoIndentWriter._newline">
+            <summary>\n or \r\n?</summary> 
+        </member>
+        <member name="F:Antlr3.ST.AutoIndentWriter._charPosition">
+            <summary>
+            Track char position in the line (later we can think about tabs).
+            Indexed from 0.  We want to keep charPosition &lt;= lineWidth.
+            This is the position we are *about* to write not the position
+            last written to.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.AutoIndentWriter.PushIndentation(System.String)">
+            <summary>
+              Push even blank (null) indents as they are like scopes; must
+              be able to pop them back off stack.
+              </summary>
+            
+              <remarks>
+              To deal with combined anchors and indentation, force indents to
+              include any current anchor point.  If current anchor is beyond
+              current indent width, add the difference to the indent to be added.
+            
+              This prevents a check later to deal with anchors when starting new line.
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.AutoIndentWriter.PopIndentation">
+            <exception cref="T:System.ArgumentOutOfRangeException" />
+        </member>
+        <member name="M:Antlr3.ST.AutoIndentWriter.PushAnchorPoint">
+            <exception cref="T:System.ArgumentNullException" />
+            <exception cref="T:System.RankException" />
+            <exception cref="T:System.ArrayTypeMismatchException" />
+            <exception cref="T:System.InvalidCastException" />
+            <exception cref="T:System.ArgumentOutOfRangeException" />
+            <exception cref="T:System.ArgumentException" />
+        </member>
+        <member name="M:Antlr3.ST.AutoIndentWriter.Write(System.String)">
+            <summary>Write out a string literal or attribute expression or expression element.</summary>
+            <exception cref="T:System.ObjectDisposedException" />
+            <exception cref="T:System.IO.IOException" />
+        </member>
+        <member name="M:Antlr3.ST.AutoIndentWriter.WriteSeparator(System.String)">
+            <exception cref="T:System.ObjectDisposedException" />
+            <exception cref="T:System.IO.IOException" />
+        </member>
+        <member name="M:Antlr3.ST.AutoIndentWriter.Write(System.String,System.String)">
+            <summary>Write out a string literal or attribute expression or expression element.</summary>
+            
+              <remarks>
+              If doing line wrap, then check wrap before emitting this str.  If
+              at or beyond desired line width then emit a \n and any indentation
+              before spitting out this str.
+              </remarks>
+            
+              <exception cref="T:System.ArgumentNullException" />
+              <exception cref="T:System.ObjectDisposedException" />
+              <exception cref="T:System.OverflowException" />
+              <exception cref="T:System.IO.IOException" />
+        </member>
+        <member name="M:Antlr3.ST.AutoIndentWriter.WriteWrapSeparator(System.String)">
+            <exception cref="T:System.ArgumentNullException" />
+            <exception cref="T:System.ObjectDisposedException" />
+            <exception cref="T:System.OverflowException" />
+            <exception cref="T:System.IO.IOException" />
+        </member>
+        <member name="M:Antlr3.ST.AutoIndentWriter.Indent">
+            <exception cref="T:System.ObjectDisposedException" />
+            <exception cref="T:System.IO.IOException" />
+        </member>
+        <member name="M:Antlr3.ST.AutoIndentWriter.Indent(System.Int32)">
+            <exception cref="T:System.ArgumentException" />
+            <exception cref="T:System.ObjectDisposedException" />
+            <exception cref="T:System.IO.IOException" />
+        </member>
+        <member name="T:Antlr3.ST.CommonGroupLoader">
+            <summary>
+            A simple loader that looks only in the directory(ies) you
+            specify in the ctor, but it uses the classpath rather than
+            absolute dirs so it can be used when the ST application is jar'd up.
+            You may specify the char encoding.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.CommonGroupLoader.#ctor(System.String,Antlr3.ST.IStringTemplateErrorListener)">
+            <summary>
+            Pass a single dir or multiple dirs separated by colons from which
+            to load groups/interfaces.  These are interpreted as relative
+            paths to be used with CLASSPATH to locate groups.  E.g.,
+            If you pass in "org/antlr/codegen/templates" and ask to load
+            group "foo" it will try to load via classpath as
+            "org/antlr/codegen/templates/foo".
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.CommonGroupLoader.Locate(System.String)">
+            <summary>
+            Look in each relative directory for the file called 'name'.
+            </summary>
+        </member>
+        <member name="T:Antlr3.ST.NoIndentWriter">
+            <summary>Just pass through the text</summary> 
+        </member>
+        <member name="T:Antlr3.ST.PathGroupLoader">
+            <summary>
+              A brain dead loader that looks only in the directory(ies) you
+              specify in the ctor.
+              </summary>
+            
+              <remarks>
+              You may specify the char encoding.
+              NOTE: this does not work when you jar things up!  Use
+              CommonGroupLoader instead in that case
+              </remarks>
+        </member>
+        <member name="F:Antlr3.ST.PathGroupLoader._fileCharEncoding">
+            <summary>
+            How are the files encoded (ascii, UTF8, ...)?  You might want to read
+            UTF8 for example on an ascii machine.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.PathGroupLoader.#ctor(System.String,Antlr3.ST.IStringTemplateErrorListener)">
+            <summary>
+            Pass a single dir or multiple dirs separated by colons from which
+            to load groups/interfaces.
+            </summary>
+        </member>
+        <member name="P:Antlr3.ST.PathGroupLoader.Directories">
+            <summary>Gets a list of directories to pull groups from</summary> 
+        </member>
+        <member name="M:Antlr3.ST.PathGroupLoader.LoadGroup(System.String,System.Type,Antlr3.ST.StringTemplateGroup)">
+            <summary>
+            Load a group with a specified superGroup.  Groups with
+            region definitions must know their supergroup to find templates
+            during parsing.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.PathGroupLoader.Locate(System.String)">
+            <summary>Look in each directory for the file called 'name'.</summary> 
+        </member>
+        <member name="T:Antlr3.ST.StringTemplate">
+            <summary>
+            A <tt>StringTemplate</tt> is a "document" with holes in it where you can stick
+            values.  <tt>StringTemplate</tt> breaks up your template into chunks of text and
+            attribute expressions.  <tt>StringTemplate</tt> ignores everything outside
+            of attribute expressions, treating it as just text to spit
+            out when you call <tt>StringTemplate.toString()</tt>.
+            </summary>
+        </member>
+        <member name="T:Antlr3.ST.StringTemplate.Aggregate">
+            <summary>An automatically created aggregate of properties.</summary>
+            
+              <remarks>
+              I often have lists of things that need to be formatted, but the list
+              items are actually pieces of data that are not already in an object.  I
+              need ST to do something like:
+            
+              Ter=3432
+              Tom=32234
+              ....
+            
+              using template:
+            
+              $items:{$attr.name$=$attr.type$}$
+            
+              This example will call getName() on the objects in items attribute, but
+              what if they aren't objects?  I have perhaps two parallel arrays
+              instead of a single array of objects containing two fields.  One
+              solution is allow Maps to be handled like properties so that it.name
+              would fail getName() but then see that it's a Map and do
+              it.get("name") instead.
+            
+              This very clean approach is espoused by some, but the problem is that
+              it's a hole in my separation rules.  People can put the logic in the
+              view because you could say: "go get bob's data" in the view:
+            
+              Bob's Phone: $db.bob.phone$
+            
+              A view should not be part of the program and hence should never be able
+              to go ask for a specific person's data.
+            
+              After much thought, I finally decided on a simple solution.  I've
+              added setAttribute variants that pass in multiple property values,
+              with the property names specified as part of the name using a special
+              attribute name syntax: "name.{propName1,propName2,...}".  This
+              object is a special kind of HashMap that hopefully prevents people
+              from passing a subclass or other variant that they have created as
+              it would be a loophole.  Anyway, the ASTExpr.getObjectProperty()
+              method looks for Aggregate as a special case and does a get() instead
+              of getPropertyName.
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.Aggregate.Put(System.String,System.Object)">
+            <summary>
+            Allow StringTemplate to add values, but prevent the end
+            user from doing so.
+            </summary>
+        </member>
+        <member name="T:Antlr3.ST.StringTemplate.STAttributeList">
+            <summary>
+            Just an alias for ArrayList, but this way I can track whether a
+            list is something ST created or it's an incoming list.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._lintMode">
+            <summary>Track probable issues like setting attribute that is not referenced.</summary> 
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._name">
+            <summary>What's the name of this template?</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.ResetTemplateCounter">
+            <summary>
+            Reset the template ID counter to 0; public so that testing routine
+            can access but not really of interest to the user.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._enclosingInstance">
+            <summary>
+            Enclosing instance if I'm embedded within another template.
+            IF-subtemplates are considered embedded as well.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._argumentContext">
+            <summary>
+              If this template is an embedded template such as when you apply
+              a template to an attribute, then the arguments passed to this
+              template represent the argument context--a set of values
+              computed by walking the argument assignment list.  For example,
+              &lt;name:bold(item=name, foo="x")&gt; would result in an
+              argument context of {[item=name], [foo="x"]} for this
+              template.  This template would be the bold() template and
+              the enclosingInstance would point at the template that held
+              that &lt;name:bold(...)&gt; template call.  When you want to get
+              an attribute value, you first check the attributes for the
+              'self' template then the arg context then the enclosingInstance
+              like resolving variables in pascal-like language with nested
+              procedures.
+              </summary>
+            
+              <remarks>
+              With multi-valued attributes such as &lt;faqList:briefFAQDisplay()&gt;
+              attribute "i" is set to 1..n.
+              </remarks>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._argumentsAST">
+            <summary>
+            If this template is embedded in another template, the arguments
+            must be evaluated just before each application when applying
+            template to a list of values.  The "it" attribute must change
+            with each application so that $names:bold(item=it)$ works.  If
+            you evaluate once before starting the application loop then it
+            has a single fixed value.  Eval.g saves the AST rather than evaluating
+            before invoking applyListOfAlternatingTemplates().  Each iteration
+            of a template application to a multi-valued attribute, these args
+            are re-evaluated with an initial context of {[it=...], [i=...]}.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._formalArguments">
+            <summary>
+            When templates are defined in a group file format, the attribute
+            list is provided including information about attribute cardinality
+            such as present, optional, ...  When this information is available,
+            rawSetAttribute should do a quick existence check as should the
+            invocation of other templates.  So if you ref bold(item="foo") but
+            item is not defined in bold(), then an exception should be thrown.
+            When actually rendering the template, the cardinality is checked.
+            This is a Map&lt;String,FormalArgument>.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._numberOfDefaultArgumentValues">
+            <summary>
+            How many formal arguments to this template have default values
+            specified?
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._passThroughAttributes">
+            <summary>
+            Normally, formal parameters hide any attributes inherited from the
+            enclosing template with the same name.  This is normally what you
+            want, but makes it hard to invoke another template passing in all
+            the data.  Use notation now: &lt;otherTemplate(...)> to say "pass in
+            all data".  Works great.  Can also say &lt;otherTemplate(foo="xxx",...)>
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._nativeGroup">
+            <summary>
+              What group originally defined the prototype for this template?
+              This affects the set of templates I can refer to.  super.t() must
+              always refer to the super of the original group.
+              </summary>
+            
+              <remarks>
+              group base;
+              t ::= "base";
+            
+              group sub;
+              t ::= "super.t()2"
+            
+              group subsub;
+              t ::= "super.t()3"
+              </remarks>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._group">
+            <summary>
+            This template was created as part of what group?  Even if this
+            template was created from a prototype in a supergroup, its group
+            will be the subgroup.  That's the way polymorphism works.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._groupFileLine">
+            <summary>If this template is defined within a group file, what line number?</summary> 
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._listener">
+            <summary>Where to report errors</summary> 
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._pattern">
+            <summary>
+            The original, immutable pattern/language (not really used again after
+            initial "compilation", setup/parsing).
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._attributes">
+            <summary>
+            Map an attribute name to its value(s).  These values are set by outside
+            code via st.setAttribute(name, value).  StringTemplate is like self in
+            that a template is both the "class def" and "instance".  When you
+            create a StringTemplate or setTemplate, the text is broken up into chunks
+            (i.e., compiled down into a series of chunks that can be evaluated later).
+            You can have multiple
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._attributeRenderers">
+            <summary>
+              A TypeRegistry&lt;IAttributeRenderer&gt; that allows people to register a renderer for
+              a particular kind of object to be displayed in this template.  This
+              overrides any renderer set for this template's group.
+              </summary>
+            
+              <remarks>
+              Most of the time this map is not used because the StringTemplateGroup
+              has the general renderer map for all templates in that group.
+              Sometimes though you want to override the group's renderers.
+              </remarks>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._chunks">
+            <summary>
+            A list of alternating string and ASTExpr references.
+            This is compiled to when the template is loaded/defined and walked to
+            write out a template instance.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._regionDefType">
+            <summary>If someone refs &lt;@r()> in template t, an implicit
+            
+               @t.r() ::= ""
+            
+              is defined, but you can overwrite this def by defining your
+              own.  We need to prevent more than one manual def though.  Between
+              this var and isEmbeddedRegion we can determine these cases.
+              </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._isRegion">
+            <summary>
+            Does this template come from a &lt;@region>...&lt;@end> embedded in
+            another template?
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplate._regions">
+            <summary>Set of implicit and embedded regions for this template</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.#ctor">
+            <summary>Create a blank template with no pattern and no attributes</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.#ctor(System.String)">
+            <summary>
+            Create an anonymous template.  It has no name just
+            chunks (which point to this anonymous template) and attributes.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.#ctor(Antlr3.ST.StringTemplateGroup,System.String)">
+            <summary>Create an anonymous template with no name, but with a group</summary> 
+        </member>
+        <member name="P:Antlr3.ST.StringTemplate.Chunks">
+            <summary>
+            Get a list of the strings and subtemplates and attribute
+            refs in a template.
+            </summary>
+        </member>
+        <member name="P:Antlr3.ST.StringTemplate.GroupFileLine">
+            <summary>Gets or sets the outermost template's group file line number</summary> 
+        </member>
+        <member name="P:Antlr3.ST.StringTemplate.LintMode">
+            <summary>
+            Make StringTemplate check your work as it evaluates templates.
+            Problems are sent to error listener.   Currently warns when
+            you set attributes that are not used.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.Dup(Antlr3.ST.StringTemplate,Antlr3.ST.StringTemplate)">
+            <summary>
+            Make the 'to' template look exactly like the 'from' template
+            except for the attributes.  This is like creating an instance
+            of a class in that the executable code is the same (the template
+            chunks), but the instance data is blank (the attributes).  Do
+            not copy the enclosingInstance pointer since you will want this
+            template to eval in a context different from the examplar.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.GetInstanceOf">
+            <summary>
+            Make an instance of this template; it contains an exact copy of
+            everything (except the attributes and enclosing instance pointer).
+            So the new template refers to the previously compiled chunks of this
+            template but does not have any attribute values.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.SetAttribute(System.String,System.Object)">
+            <summary>
+              Set an attribute for this template.  If you set the same
+              attribute more than once, you get a multi-valued attribute.
+              If you send in a StringTemplate object as a value, it's
+              enclosing instance (where it will inherit values from) is
+              set to 'this'.  This would be the normal case, though you
+              can set it back to null after this call if you want.
+              If you send in a List plus other values to the same
+              attribute, they all get flattened into one List of values.
+              This will be a new list object so that incoming objects are
+              not altered.
+              </summary>
+            
+              <remarks>
+              If you send in an array, it is converted to an ArrayIterator.
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.SetAttribute(System.String,System.Object,System.Object)">
+            <summary>
+            Set an aggregate attribute with two values.  The attribute name
+            must have the format: "name.{propName1,propName2}".
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.SetAttribute(System.String,System.Object[])">
+            <summary>
+            Create an aggregate from the list of properties in aggrSpec and fill
+            with values from values array.  This is not publically visible because
+            it conflicts semantically with setAttribute("foo",new Object[] {...});
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.ParseAggregateAttributeSpec(System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            Split "aggrName.{propName1,propName2}" into list [propName1,propName2]
+            and the aggrName. Space is allowed around ','.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.RawSetAttribute(System.Collections.Generic.IDictionary{System.String,System.Object},System.String,System.Object)">
+            <summary>
+            Map a value to a named attribute.  Throw NoSuchElementException if
+            the named attribute is not formally defined in self's specific template
+            and a formal argument list exists.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.RawSetArgumentAttribute(Antlr3.ST.StringTemplate,System.Collections.Generic.IDictionary{System.String,System.Object},System.String,System.Object)">
+            <summary>
+            Argument evaluation such as foo(x=y), x must
+            be checked against foo's argument list not this's (which is
+            the enclosing context).  So far, only eval.g uses arg self as
+            something other than "this".
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.Write(Antlr3.ST.IStringTemplateWriter)">
+            <summary>
+            Walk the chunks, asking them to write themselves out according
+            to attribute values of 'this.attributes'.  This is like evaluating or
+            interpreting the StringTemplate as a program using the
+            attributes.  The chunks will be identical (point at same list)
+            for all instances of this template.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.Get(Antlr3.ST.StringTemplate,System.String)">
+            <summary>Resolve an attribute reference.</summary>
+            
+              <remarks>
+              It can be in four possible places:
+            
+              1. the attribute list for the current template
+              2. if self is an embedded template, somebody invoked us possibly
+                 with arguments--check the argument context
+              3. if self is an embedded template, the attribute list for the enclosing
+                 instance (recursively up the enclosing instance chain)
+              4. if nothing is found in the enclosing instance chain, then it might
+                 be a map defined in the group or the its supergroup etc...
+            
+              Attribute references are checked for validity.  If an attribute has
+              a value, its validity was checked before template rendering.
+              If the attribute has no value, then we must check to ensure it is a
+              valid reference.  Somebody could reference any random value like $xyz$;
+              formal arg checks before rendering cannot detect this--only the ref
+              can initiate a validity check.  So, if no value, walk up the enclosed
+              template tree again, this time checking formal parameters not
+              attributes Map.  The formal definition must exist even if no value.
+            
+              To avoid infinite recursion in toString(), we have another condition
+              to check regarding attribute values.  If your template has a formal
+              argument, foo, then foo will hide any value available from "above"
+              in order to prevent infinite recursion.
+            
+              This method is not static so people can override functionality.
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.BreakTemplateIntoChunks">
+            <summary>
+            Walk a template, breaking it into a list of
+            chunks: Strings and actions/expressions.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.SetDefaultArgumentValues">
+            <summary>
+              Set any default argument values that were not set by the
+              invoking template or by setAttribute directly.  Note
+              that the default values may be templates.  Their evaluation
+              context is the template itself and, hence, can see attributes
+              within the template, any arguments, and any values inherited
+              by the template.
+              </summary>
+            
+              <remarks>
+              Default values are stored in the argument context rather than
+              the template attributes table just for consistency's sake.
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.LookupFormalArgument(System.String)">
+            <summary>
+            From this template upward in the enclosing template tree,
+            recursively look for the formal parameter.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.SetPassThroughAttributes(System.Boolean)">
+            <summary>
+            Normally if you call template y from x, y cannot see any attributes
+            of x that are defined as formal parameters of y.  Setting this
+            passThroughAttributes to true, will override that and allow a
+            template to see through the formal arg list to inherited values.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.RegisterRenderer(System.Type,Antlr3.ST.IAttributeRenderer)">
+            <summary>
+            Register a renderer for all objects of a particular type.  This
+            overrides any renderer set in the group for this class type.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.GetAttributeRenderer(System.Type)">
+            <summary>
+            What renderer is registered for this attributeClassType for
+            this template.  If not found, the template's group is queried.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.TrackAttributeReference(System.String)">
+            <summary>Indicates that 'name' has been referenced in this template.</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.IsRecursiveEnclosingInstance(Antlr3.ST.StringTemplate)">
+            <summary>
+            Look up the enclosing instance chain (and include this) to see
+            if st is a template already in the enclosing instance chain.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.CheckNullAttributeAgainstFormalArguments(Antlr3.ST.StringTemplate,System.String)">
+            <summary>
+              A reference to an attribute with no value, must be compared against
+              the formal parameter to see if it exists; if it exists all is well,
+              but if not, throw an exception.
+              </summary>
+            
+              <remarks>
+              Don't do the check if no formal parameters exist for this template;
+              ask enclosing.
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.CheckForTrouble">
+            <summary>
+            Executed after evaluating a template.  For now, checks for setting
+            of attributes not reference.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.GetEnclosingInstanceStackString">
+            <summary>
+            If an instance of x is enclosed in a y which is in a z, return
+            a String of these instance names in order from topmost to lowest;
+            here that would be "[z y x]".
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.ContainsRegionName(System.String)">
+            <summary>Does this template ref or embed region name?</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.ToStructureString">
+            <summary>
+            Don't print values, just report the nested structure with attribute names.
+            Follow (nest) attributes that are templates only.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.GetDOTForDependencyGraph(System.Boolean)">
+            <summary>
+             Generate a DOT file for displaying the template enclosure graph.
+             </summary>
+             
+             <remarks>
+             For example:
+            
+                 digraph prof {
+                     "t1" -> "t2"
+                     "t1" -> "t3"
+                     "t4" -> "t5"
+                 }
+             </remarks>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.GetDependencyGraph(System.Collections.Generic.IDictionary{System.String,System.Collections.Generic.HashSet{System.String}},System.Boolean)">
+            <summary>
+              Get a list of n->m edges where template n contains template m.
+              The map you pass in is filled with edges: key->value.  Useful
+              for having DOT print out an enclosing template graph.  It
+              finds all direct template invocations too like &lt;foo()> but not
+              indirect ones like &lt;(name)()>.
+              </summary>
+            
+              <remarks>
+              Ack, I just realized that this is done statically and hence
+              cannot see runtime arg values on statically included templates.
+              Hmm...someday figure out to do this dynamically as if we were
+              evaluating the templates.  There will be extra nodes in the tree
+              because we are static like method and method[...] with args.
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplate.PutToMultiValuedMap(System.Collections.Generic.IDictionary{System.String,System.Collections.Generic.HashSet{System.String}},System.String,System.String)">
+            <summary>Manage a hash table like it has multiple unique values.  Map&lt;Object,Set>.</summary> 
+        </member>
+        <member name="T:Antlr3.ST.IStringTemplateErrorListener">
+            <summary>
+            Lets you specify where errors, warnings go. Warning: debug is useful at
+            the moment.
+            </summary>
+        </member>
+        <member name="T:Antlr3.ST.StringTemplateGroup">
+            <summary>
+              Manages a group of named mutually-referential StringTemplate objects.
+              Currently the templates must all live under a directory so that you
+              can reference them as foo.st or gutter/header.st.  To refresh a
+              group of templates, just create a new StringTemplateGroup and start
+              pulling templates from there.  Or, set the refresh interval.
+              </summary>
+            
+              <remarks>
+              Use getInstanceOf(template-name) to get a string template
+              to fill in.
+            
+              The name of a template is the file name minus ".st" ending if present
+              unless you name it as you load it.
+            
+              You can use the group file format also to define a group of templates
+              (this works better for code gen than for html page gen).  You must give
+              a Reader to the ctor for it to load the group; this is general and
+              distinguishes it from the ctors for the old-style "load template files
+              from the disk".
+            
+              10/2005 I am adding a StringTemplateGroupLoader concept so people can define supergroups
+              within a group and have it load that group automatically.
+              </remarks>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._name">
+            <summary>What is the group name</summary> 
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._templates">
+            <summary>Maps template name to StringTemplate object</summary> 
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._maps">
+            <summary>
+            Maps map names to HashMap objects.  This is the list of maps
+            defined by the user like typeInitMap ::= ["int":"0"]
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._templateLexerClass">
+            <summary>How to pull apart a template into chunks?</summary> 
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._defaultTemplateLexerClass">
+            <summary>
+            You can set the lexer once if you know all of your groups use the
+            same separator.  If the instance has templateLexerClass set
+            then it is used as an override.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._rootDir">
+            <summary>
+            Under what directory should I look for templates?  If null,
+            to look into the CLASSPATH for templates as resources.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._nameToGroupMap">
+            <summary>Track all groups by name; maps name to StringTemplateGroup</summary> 
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._nameToInterfaceMap">
+            <summary>Track all interfaces by name; maps name to StringTemplateGroupInterface</summary> 
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._superGroup">
+            <summary>
+            Are we derived from another group?  Templates not found in this group
+            will be searched for in the superGroup recursively.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._interfaces">
+            <summary>Keep track of all interfaces implemented by this group.</summary> 
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._templatesDefinedInGroupFile">
+            <summary>
+            When templates are files on the disk, the refresh interval is used
+            to know when to reload.  When a Reader is passed to the ctor,
+            it is a stream full of template definitions.  The former is used
+            for web development, but the latter is most likely used for source
+            code generation for translators; a refresh is unlikely.  Anyway,
+            I decided to track the source of templates in case such info is useful
+            in other situations than just turning off refresh interval.  I just
+            found another: don't ever look on the disk for individual templates
+            if this group is a group file...immediately look into any super group.
+            If not in the super group, report no such template.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._userSpecifiedWriter">
+            <summary>
+            Normally AutoIndentWriter is used to filter output, but user can
+            specify a new one.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._noDebugStartStopStrings">
+            <summary>The set of templates to ignore when dumping start/stop debug strings</summary> 
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._attributeRenderers">
+            <summary>
+              A Map&lt;Class,Object> that allows people to register a renderer for
+              a particular kind of object to be displayed for any template in this
+              group.  For example, a date should be formatted differently depending
+              on the locale.  You can set Date.class to an object whose
+              toString(Object) method properly formats a Date attribute
+              according to locale.  Or you can have a different renderer object
+              for each locale.
+              </summary>
+            
+              <remarks>
+              These render objects are used way down in the evaluation chain
+              right before an attribute's toString() method would normally be
+              called in ASTExpr.write().
+            
+              Synchronized at creation time.
+              </remarks>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._groupLoader">
+            <summary>
+            If a group file indicates it derives from a supergroup, how do we
+            find it?  Shall we make it so the initial StringTemplateGroup file
+            can be loaded via this loader?  Right now we pass a Reader to ctor
+            to distinguish from the other variety.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._listener">
+            <summary>
+            Where to report errors.  All string templates in this group
+            use this error handler by default.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup.NOT_FOUND_ST">
+            <summary>
+            Used to indicate that the template doesn't exist.
+            We don't have to check disk for it; we know it's not there.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._refreshIntervalInSeconds">
+            <summary>How long before tossing out all templates in seconds.</summary> 
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroup._fileCharEncoding">
+            <summary>
+            How are the files encoded (ascii, UTF8, ...)?  You might want to read
+            UTF8 for example on an ascii machine.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.#ctor(System.String,System.String)">
+            <summary>
+            Create a group manager for some templates, all of which are
+            at or below the indicated directory.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.#ctor(System.String)">
+            <summary>
+            Create a group manager for some templates, all of which are
+            loaded as resources via the classloader.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.#ctor(System.IO.TextReader)">
+            <summary>
+              Create a group from the template group defined by a input stream.
+              The name is pulled from the file.
+              </summary>
+            
+              <remarks>
+              The format is
+            
+              group name;
+            
+              t1(args) ::= "..."
+              t2() ::= &lt;&lt;
+              >>
+              ...
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.#ctor(System.IO.TextReader,System.Type,Antlr3.ST.IStringTemplateErrorListener,Antlr3.ST.StringTemplateGroup)">
+            <summary>
+            Create a group from the input stream, but use a nondefault lexer
+            to break the templates up into chunks.  This is usefor changing
+            the delimiter from the default $...$ to &lt;...>, for example.
+            </summary>
+        </member>
+        <member name="P:Antlr3.ST.StringTemplateGroup.RefreshInterval">
+            <summary>
+            How often to refresh all templates from disk.  This is a crude
+            mechanism at the moment--just tosses everything out at this
+            frequency.  Set interval to 0 to refresh constantly (no caching).
+            Set interval to a huge number like MAX_INT to have no refreshing
+            at all (DEFAULT); it will cache stuff.
+            </summary>
+        </member>
+        <member name="P:Antlr3.ST.StringTemplateGroup.TemplateLexerClass">
+            <summary>
+            What lexer class to use to break up templates.  If not lexer set
+            for this group, use static default.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.SetSuperGroup(System.String)">
+            <summary>
+            Called by group parser when ": supergroupname" is found.
+            This method forces the supergroup's lexer to be same as lexer
+            for this (sub) group.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.ImplementInterface(Antlr3.ST.StringTemplateGroupInterface)">
+            <summary>Just track the new interface; check later.  Allows dups, but no biggie.</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.ImplementInterface(System.String)">
+            <summary>
+            Indicate that this group implements this interface; load if necessary
+            if not in the nameToInterfaceMap.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.GetGroupHierarchyStackString">
+            <summary>Walk up group hierarchy and show top down to this group</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.CreateStringTemplate">
+            <summary>StringTemplate object factory; each group can have its own.</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.GetInstanceOf(Antlr3.ST.StringTemplate,System.String)">
+            <summary>
+            A support routine that gets an instance of name knowing which
+            ST encloses it for error messages.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.GetInstanceOf(System.String)">
+            <summary>The primary means of getting an instance of a template from this group.</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.GetInstanceOf(System.String,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            The primary means of getting an instance of a template from this
+            group when you have a predefined set of attributes you want to
+            use.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.LookupTemplate(Antlr3.ST.StringTemplate,System.String)">
+            <summary>
+              Get the template called 'name' from the group.  If not found,
+              attempt to load.  If not found on disk, then try the superGroup
+              if any.  If not even there, then record that it's
+              NOT_FOUND so we don't waste time looking again later.  If we've gone
+              past refresh interval, flush and look again.
+              </summary>
+            
+              <remarks>
+              If I find a template in a super group, copy an instance down here
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.LoadTemplateFromBeneathRootDirOrCLASSPATH(System.String)">
+            <summary>
+            Load a template whose name is derived from the template filename.
+            If there is no root directory, try to load the template from
+            the classpath.  If there is a rootDir, try to load the file
+            from there.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.GetFileNameFromTemplateName(System.String)">
+            <summary>
+            (public so that people can override behavior; not a general
+            purpose method)
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.GetTemplateNameFromFileName(System.String)">
+            <summary>
+            Convert a filename relativePath/name.st to relativePath/name.
+            (public so that people can override behavior; not a general
+            purpose method)
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.DefineTemplate(System.String,System.String)">
+            <summary>
+            Define an examplar template; precompiled and stored
+            with no attributes.  Remove any previous definition.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.DefineRegionTemplate(System.String,System.String,System.String,Antlr3.ST.Language.RegionType)">
+            <summary>Track all references to regions &lt;@foo>...&lt;@end> or &lt;@foo()>.</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.DefineRegionTemplate(Antlr3.ST.StringTemplate,System.String,System.String,Antlr3.ST.Language.RegionType)">
+            <summary>Track all references to regions &lt;@foo>...&lt;@end> or &lt;@foo()>.</summary>  
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.DefineImplicitRegionTemplate(Antlr3.ST.StringTemplate,System.String)">
+            <summary>Track all references to regions &lt;@foo()>.  We automatically
+              define as
+            
+                 @enclosingtemplate.foo() ::= ""
+              </summary>
+            
+              <remarks>
+              You cannot set these manually in the same group; you have to subgroup
+              to override.
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.GetMangledRegionName(System.String,System.String)">
+            <summary>The "foo" of t() ::= "&lt;@foo()>" is mangled to "region#t#foo"</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.GetUnMangledTemplateName(System.String)">
+            <summary>Return "t" from "region__t__foo"</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.DefineTemplateAlias(System.String,System.String)">
+            <summary>Make name and alias for target.  Replace any previous def of name</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.GetTemplateDefinition(System.String)">
+            <summary>Get the ST for 'name' in this group only</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.IsDefined(System.String)">
+            <summary>
+            Is there *any* definition for template 'name' in this template
+            or above it in the group hierarchy?
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.VerifyInterfaceImplementations">
+            <summary>Verify that this group satisfies its interfaces</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.SetStringTemplateWriter(System.Type)">
+            <summary>
+            Specify a StringTemplateWriter implementing class to use for
+            filtering output
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.GetStringTemplateWriter(System.IO.TextWriter)">
+            <summary>
+            Return an instance of a StringTemplateWriter that spits output to w.
+            If a writer is specified, use it instead of the default.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.RegisterRenderer(System.Type,Antlr3.ST.IAttributeRenderer)">
+            <summary>
+            Register a renderer for all objects of a particular type for all
+            templates in this group.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.GetAttributeRenderer(System.Type)">
+            <summary>
+            What renderer is registered for this attributeClassType for
+            this group?  If not found, as superGroup if it has one.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.DefineMap(System.String,System.Collections.Generic.IDictionary{System.String,Antlr3.ST.StringTemplate})">
+            <summary>
+            Define a map for this group; not thread safe...do not keep adding
+            these while you reference them.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroup.EmitDebugStartStopStrings(System.Boolean)">
+            <summary>
+            Indicate whether ST should emit &lt;templatename>...&lt;/templatename>
+            strings for debugging around output for templates from this group.
+            </summary>
+        </member>
+        <member name="T:Antlr3.ST.StringTemplateGroupInterface">
+            <summary>A group interface is like a group without the template implementations.</summary>
+            
+              <remarks>
+              There are just template names/argument-lists like this:
+            
+              interface foo;
+              class(name,fields);
+              method(name,args,body);
+              </remarks>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroupInterface._name">
+            <summary>What is the group name</summary> 
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroupInterface._templates">
+            <summary>Maps template name to TemplateDefinition object</summary> 
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroupInterface._superInterface">
+            <summary>
+            Are we derived from another group?  Templates not found in this group
+            will be searched for in the superGroup recursively.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.StringTemplateGroupInterface._listener">
+            <summary>
+            Where to report errors.  All string templates in this group
+            use this error handler by default.
+            </summary>
+        </member>
+        <member name="T:Antlr3.ST.StringTemplateGroupInterface.TemplateDefinition">
+            <summary>All the info we need to track for a template defined in an interface</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroupInterface.#ctor(System.IO.TextReader,Antlr3.ST.IStringTemplateErrorListener,Antlr3.ST.StringTemplateGroupInterface)">
+            <summary>Create an interface from the input stream</summary> 
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroupInterface.GetMissingTemplates(Antlr3.ST.StringTemplateGroup)">
+            <summary>
+            Return a list of all template names missing from group that are defined
+            in this interface.  Return null if all is well.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.StringTemplateGroupInterface.GetMismatchedTemplates(Antlr3.ST.StringTemplateGroup)">
+            <summary>
+            Return a list of all template sigs that are present in the group, but
+            that have wrong formal argument lists.  Return null if all is well.
+            </summary>
+        </member>
+        <member name="T:Antlr3.ST.IStringTemplateGroupLoader">
+            <summary>
+            When group files derive from another group, we have to know how to
+            load that group and its supergroups.  This interface also knows how
+            to load interfaces.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.IStringTemplateGroupLoader.LoadGroup(System.String)">
+            <summary>
+            Load the group called groupName from somewhere.  Return null
+            if no group is found.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.IStringTemplateGroupLoader.LoadGroup(System.String,Antlr3.ST.StringTemplateGroup)">
+            <summary>
+            Load a group with a specified superGroup.  Groups with
+            region definitions must know their supergroup to find templates
+            during parsing.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.IStringTemplateGroupLoader.LoadGroup(System.String,System.Type,Antlr3.ST.StringTemplateGroup)">
+            <summary>
+            Specify the template lexer to use for parsing templates.  If null,
+            it assumes angle brackets &lt;...>.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.IStringTemplateGroupLoader.LoadInterface(System.String)">
+            <summary>
+            Load the interface called interfaceName from somewhere.  Return null
+            if no interface is found.
+            </summary>
+        </member>
+        <member name="T:Antlr3.ST.IStringTemplateWriter">
+            <summary>Generic StringTemplate output writer filter.</summary>
+            
+              <remarks>
+              Literals and the elements of expressions are emitted via write().
+              Separators are emitted via writeSeparator() because they must be
+              handled specially when wrapping lines (we don't want to wrap
+              in between an element and it's separator).
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.IStringTemplateWriter.Write(System.String)">
+            <summary>
+            Write the string and return how many actual chars were written.
+            With autoindentation and wrapping, more chars than length(str)
+            can be emitted.  No wrapping is done.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.IStringTemplateWriter.Write(System.String,System.String)">
+            <summary>
+            Same as write, but wrap lines using the indicated string as the
+            wrap character (such as "\n").
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.IStringTemplateWriter.WriteWrapSeparator(System.String)">
+            <summary>
+            Because we might need to wrap at a non-atomic string boundary
+            (such as when we wrap in between template applications
+             &lt;data:{v|[&lt;v>]}; wrap>) we need to expose the wrap string
+            writing just like for the separator.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.IStringTemplateWriter.WriteSeparator(System.String)">
+            <summary>
+            Write a separator.  Same as write() except that a \n cannot
+            be inserted before emitting a separator.
+            </summary>
+        </member>
+        <member name="T:Antlr3.ST.Language.ASTExpr">
+            <summary>
+            A single string template expression enclosed in $...; separator=...$
+            parsed into an AST chunk to be evaluated.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.Language.ASTExpr.MapKeyValue">
+            <summary>Used to indicate "default:key" in maps within groups</summary> 
+        </member>
+        <member name="F:Antlr3.ST.Language.ASTExpr.EmptyOption">
+            <summary>
+            Using an expr option w/o value, makes options table hold EMPTY_OPTION
+            value for that key.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.Language.ASTExpr._supportedOptions">
+            <summary>John Snyders gave me an example implementation for this checking</summary> 
+        </member>
+        <member name="F:Antlr3.ST.Language.ASTExpr._options">
+            <summary>store separator etc...</summary> 
+        </member>
+        <member name="F:Antlr3.ST.Language.ASTExpr._wrapString">
+            <summary>
+            A cached value of wrap=expr from the &lt;...> expression.
+            Computed in write(StringTemplate, StringTemplateWriter) and used
+            in writeAttribute.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.Language.ASTExpr._nullValue">
+            <summary>
+            For null values in iterated attributes and single attributes that
+            are null, use this value instead of skipping.  For single valued
+            attributes like &lt;name; null="n/a"> it's a shorthand for
+            &lt;if(name)>&lt;name>&lt;else>n/a&lt;endif>
+            For iterated values &lt;values; null="0", separator=",">, you get 0 for
+            for null list values.  Works for template application like:
+            &lt;values:{v| &lt;v>}; null="0"> also.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.Language.ASTExpr._separatorString">
+            <summary>
+            A cached value of separator=expr from the &lt;...> expression.
+            Computed in write(StringTemplate, StringTemplateWriter) and used
+            in writeAttribute.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.Language.ASTExpr._formatString">
+            <summary>A cached value of option format=expr</summary> 
+        </member>
+        <member name="P:Antlr3.ST.Language.ASTExpr.AST">
+            <summary>Return the tree interpreted when this template is written out.</summary> 
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.Write(Antlr3.ST.StringTemplate,Antlr3.ST.IStringTemplateWriter)">
+            <summary>
+              To write out the value of an ASTExpr, invoke the evaluator in eval.g
+              to walk the tree writing out the values.  For efficiency, don't
+              compute a bunch of strings and then pack them together.  Write out directly.
+              </summary>
+            
+              <remarks>
+              Compute separator and wrap expressions, save as strings so we don't
+              recompute for each value in a multi-valued attribute or expression.
+            
+              If they set anchor option, then inform the writer to push current
+              char position.
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.HandleExprOptions(Antlr3.ST.StringTemplate)">
+            <summary>Grab and cache options; verify options are valid</summary> 
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.ApplyTemplateToListOfAttributes(Antlr3.ST.StringTemplate,System.Collections.IList,Antlr3.ST.StringTemplate)">
+            <summary>
+            For &lt;names,phones:{n,p | ...}> treat the names, phones as lists
+            to be walked in lock step as n=names[i], p=phones[i].
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.GetObjectProperty(Antlr3.ST.StringTemplate,System.Object,System.Object)">
+            <summary>Return o.getPropertyName() given o and propertyName.  If o is
+              a stringtemplate then access it's attributes looking for propertyName
+              instead (don't check any of the enclosing scopes; look directly into
+              that object).  Also try isXXX() for booleans.  Allow Map
+              as special case (grab value for key).
+              </summary>
+            
+              <remarks>
+              Cache repeated requests for obj.prop within same group.
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.BuildAccessor(System.Reflection.MethodInfo,System.String)">
+            <summary>
+            Builds an accessor for an indexer property that returns a takes a string argument.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.TestAttributeTrue(System.Object)">
+            <summary>
+              Normally StringTemplate tests presence or absence of attributes
+              for adherence to my principles of separation, but some people
+              disagree and want to change.
+              </summary>
+            
+              <remarks>
+              For 2.0, if the object is a boolean, do something special. $if(boolean)$
+              will actually test the value.  Now, this breaks my rules of entanglement
+              listed in my paper, but it truly surprises programmers to have booleans
+              always true.  Further, the key to isolating logic in the model is avoiding
+              operators (for which you need attribute values).  But, no operator is
+              needed to use boolean values.  Well, actually I guess "!" (not) is
+              an operator.  Regardless, for practical reasons, I'm going to technically
+              violate my rules as I currently have them defined.  Perhaps for a future
+              version of the paper I will refine the rules.
+            
+              Post 2.1, I added a check for non-null Iterators, Collections, ...
+              with size==0 to return false. TJP 5/1/2005
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.Add(System.Object,System.Object)">
+            <summary>
+            For now, we can only add two objects as strings; convert objects to
+            Strings then cat.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.GetTemplateInclude(Antlr3.ST.StringTemplate,System.String,Antlr3.ST.Language.StringTemplateAST)">
+            <summary>
+            Call a string template with args and return result.  Do not convert
+            to a string yet.  It may need attributes that will be available after
+            this is inserted into another template.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.WriteAttribute(Antlr3.ST.StringTemplate,System.Object,Antlr3.ST.IStringTemplateWriter)">
+            <summary>
+              How to spit out an object.  If it's not a StringTemplate nor a
+              List, just do o.toString().  If it's a StringTemplate,
+              do o.write(out).  If it's a Vector, do a write(out,
+              o.elementAt(i)) for all elements.  Note that if you do
+              something weird like set the values of a multivalued tag
+              to be vectors, it will effectively flatten it.
+              </summary>
+            
+              <remarks>
+              If self is an embedded template, you might have specified
+              a separator arg; used when is a vector.
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.Write(Antlr3.ST.StringTemplate,System.Object,Antlr3.ST.IStringTemplateWriter)">
+            <summary>Write o relative to self to out.</summary>
+            
+              <remarks>
+              John Snyders fixes here for formatString.  Basically, any time
+              you are about to write a value, check formatting.
+              </remarks>
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.EvaluateExpression(Antlr3.ST.StringTemplate,System.Object)">
+            <summary>
+            A expr is normally just a string literal, but is still an AST that
+            we must evaluate.  The expr can be any expression such as a template
+            include or string cat expression etc...  Evaluate with its own writer
+            so that we can convert to string and then reuse, don't want to compute
+            all the time; must precompute w/o writing to output buffer.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.EvaluateArguments(Antlr3.ST.StringTemplate)">
+            <summary>
+            Evaluate an argument list within the context of the enclosing
+            template but store the values in the context of self, the
+            new embedded template.  For example, bold(item=item) means
+            that bold.item should get the value of enclosing.item.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.ConvertArrayToList(System.Object)">
+            <summary>
+            Do a standard conversion of array attributes to a List.  Wrap the
+            array instead of copying like old version.  Make an
+            ArrayWrappedInList that knows to create an ArrayIterator.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.First(System.Object)">
+            <summary>
+            Return the first attribute if multiple valued or the attribute
+            itself if single-valued.  Used in &lt;names:first()>
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.Rest(System.Object)">
+            <summary>
+            Return the everything but the first attribute if multiple valued
+            or null if single-valued.  Used in &lt;names:rest()>.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.Last(System.Object)">
+            <summary>
+            Return the last attribute if multiple valued or the attribute
+            itself if single-valued.  Used in &lt;names:last()>.  This is pretty
+            slow as it iterates until the last element.  Ultimately, I could
+            make a special case for a List or Vector.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.Strip(System.Object)">
+            <summary>Return a new list w/o null values.</summary> 
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.Trunc(System.Object)">
+            <summary>Return all but the last element.  trunc(x)=null if x is single-valued.</summary> 
+        </member>
+        <member name="M:Antlr3.ST.Language.ASTExpr.Length(System.Object)">
+            <summary>
+            Return the length of a multiple valued attribute or 1 if it is a
+            single attribute. If attribute is null return 0.
+            Special case several common collections and primitive arrays for
+            speed.  This method by Kay Roepke.
+            </summary>
+        </member>
+        <member name="T:Antlr3.ST.Language.ChunkToken">
+            <summary>
+            Tracks the various string and attribute chunks discovered
+            by the lexer.  Subclassed CommonToken so that I could pass
+            the indentation to the parser, which will add it to the
+            ASTExpr created for the $...$ attribute reference.
+            </summary>
+        </member>
+        <member name="T:Antlr3.ST.Language.ConditionalExpr">
+            <summary>A conditional reference to an embedded subtemplate.</summary> 
+        </member>
+        <member name="M:Antlr3.ST.Language.ConditionalExpr.Write(Antlr3.ST.StringTemplate,Antlr3.ST.IStringTemplateWriter)">
+            <summary>
+            To write out the value of a condition expr, invoke the evaluator in eval.g
+            to walk the condition tree computing the boolean value.  If result
+            is true, then write subtemplate.
+            </summary>
+        </member>
+        <member name="T:Antlr3.ST.Language.Expr">
+            <summary>
+              A string template expression embedded within the template.
+              A template is parsed into a tokenized vector of Expr objects
+              and then executed after the user sticks in attribute values.
+              </summary>
+            
+              <remarks>
+              This list of Expr objects represents a "program" for the StringTemplate
+              evaluator.
+              </remarks>
+        </member>
+        <member name="F:Antlr3.ST.Language.Expr._enclosingTemplate">
+            <summary>The StringTemplate object surrounding this expr</summary> 
+        </member>
+        <member name="F:Antlr3.ST.Language.Expr._indentation">
+            <summary>
+            Anything spit out as a chunk (even plain text) must be indented
+            according to whitespace before the action that generated it.  So,
+            plain text in the outermost template is never indented, but the
+            text and attribute references in a nested template will all be
+            indented by the amount seen directly in front of the attribute
+            reference that initiates construction of the nested template.
+            </summary>
+        </member>
+        <member name="M:Antlr3.ST.Language.Expr.Write(Antlr3.ST.StringTemplate,Antlr3.ST.IStringTemplateWriter)">
+            <summary>How to write this node to output; return how many char written</summary> 
+        </member>
+        <member name="T:Antlr3.ST.Language.FormalArgument">
+            <summary>
+              Represents the name of a formal argument
+              defined in a template:
+              </summary>
+            
+              <remarks>
+              group test;
+              test(a,b) : "$a$ $b$"
+              t() : "blort"
+            
+              Each template has a set of these formal arguments or uses
+              a placeholder object: UNKNOWN (indicating that no arguments
+              were specified such as when a template is loaded from a file.st).
+            
+              Note: originally, I tracked cardinality as well as the name of an
+              attribute.  I'm leaving the code here as I suspect something may come
+              of it later.  Currently, though, cardinality is not used.
+              </remarks>
+        </member>
+        <member name="F:Antlr3.ST.Language.FormalArgument.UNKNOWN">
+            <summary>
+            When template arguments are not available such as when the user
+            uses "new StringTemplate(...)", then the list of formal arguments
+            must be distinguished from the case where a template can specify
+            args and there just aren't any such as the t() template above.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.Language.FormalArgument.defaultValueST">
+            <summary>If they specified name="value", store the template here</summary> 
+        </member>
+        <member name="T:Antlr3.ST.Language.NewlineRef">
+            <summary>
+            Represents a newline.  Separated so I can do smart things like not
+            spitting out newlines when the only thing on a line is an attr expr.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.Language.RegionType.Implicit">
+            <summary>&lt;@r()&gt;</summary>
+        </member>
+        <member name="F:Antlr3.ST.Language.RegionType.Embedded">
+            <summary>&lt;@r&gt;...&lt;@end&gt;</summary>
+        </member>
+        <member name="F:Antlr3.ST.Language.RegionType.Explicit">
+            <summary>@t.r() ::= "..." defined manually by coder</summary>
+        </member>
+        <member name="T:Antlr3.ST.Language.StringRef">
+            <summary>Represents a chunk of just simple text to spit out; nothing to "evaluate"</summary> 
+        </member>
+        <member name="M:Antlr3.ST.Language.StringRef.Write(Antlr3.ST.StringTemplate,Antlr3.ST.IStringTemplateWriter)">
+            <summary>
+            Just print out the string; no reference to self because this
+            is a literal--not sensitive to attribute values.  These strings
+            never wrap because they are not part of an &lt;...> expression.
+            &lt;"foo"; wrap="\n"> should wrap though if necessary.
+            </summary>
+        </member>
+        <member name="F:Antlr3.ST.Language.StringTemplateToken.args">
+            <summary>
+            Track any args for anonymous templates like
+            &lt;tokens,rules:{t,r | &lt;t&gt; then &lt;r&gt;}>
+            The lexer in action.g returns a single token ANONYMOUS_TEMPLATE
+            and so I need to have it parse args in the lexer and make them
+            available for when I build the anonymous template.
+            </summary>
+        </member>
+        <member name="M:Antlr.Runtime.JavaExtensions.AntlrJavaExtensions.findAllPartial(Antlr.Runtime.Tree.ITree,Antlr.Runtime.Tree.ITree)">
+            Walk the tree looking for all subtrees.  Return
+            an enumeration that lets the caller walk the list
+            of subtree roots found herein.
+        </member>
+    </members>
+</doc>

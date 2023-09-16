@@ -19,3 +19,13 @@ Z:\ea-model-validator\Enterprise-Architect-Model-Validator\GenericExtension\obj\
 Z:\ea-model-validator\Enterprise-Architect-Model-Validator\GenericExtension\obj\Debug\GenericExtension.csproj.CopyComplete
 Z:\ea-model-validator\Enterprise-Architect-Model-Validator\GenericExtension\obj\Debug\GenericExtension.dll
 Z:\ea-model-validator\Enterprise-Architect-Model-Validator\GenericExtension\obj\Debug\GenericExtension.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericExtension\obj\Debug\GenericExtension.csproj.AssemblyReference.cache
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericExtension\obj\Debug\GenericExtension.csproj.ResolveComReference.cache
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericExtension\obj\Debug\GenericExtension.csproj.CoreCompileInputs.cache
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericExtension\obj\Debug\GenericExtension.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericExtension\obj\Debug\GenericExtension.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericExtension\bin\Debug\GenericExtension.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericExtension\bin\Debug\GenericExtension.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericExtension\bin\Debug\ModelValidatorLibrary.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericExtension\bin\Debug\ModelValidatorLibrary.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\GenericExtension\obj\Debug\GenericExtension.csproj.CopyComplete

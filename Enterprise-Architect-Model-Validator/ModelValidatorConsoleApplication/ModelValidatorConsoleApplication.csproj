@@ -36,7 +36,7 @@
       <HintPath>..\packages\CommandLineParser.2.9.1\lib\net40\CommandLine.dll</HintPath>
     </Reference>
     <Reference Include="Interop.EA">
-      <HintPath>C:\Program Files (x86)\Sparx Systems\EA Trial\Interop.EA.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Sparx Systems\EA\Interop.EA.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />

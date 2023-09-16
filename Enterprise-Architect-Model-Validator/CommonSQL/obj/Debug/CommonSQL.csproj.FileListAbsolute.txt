@@ -1,0 +1,12 @@
+Z:\EA_Addin_Model_Validator\CommonSQL\bin\Debug\CommonSQL.dll
+Z:\EA_Addin_Model_Validator\CommonSQL\bin\Debug\CommonSQL.pdb
+Z:\EA_Addin_Model_Validator\CommonSQL\obj\Debug\CommonSQL.csproj.AssemblyReference.cache
+Z:\EA_Addin_Model_Validator\CommonSQL\obj\Debug\CommonSQL.csproj.CoreCompileInputs.cache
+Z:\EA_Addin_Model_Validator\CommonSQL\obj\Debug\CommonSQL.dll
+Z:\EA_Addin_Model_Validator\CommonSQL\obj\Debug\CommonSQL.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\CommonSQL\bin\Debug\CommonSQL.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\CommonSQL\bin\Debug\CommonSQL.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\CommonSQL\obj\Debug\CommonSQL.csproj.AssemblyReference.cache
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\CommonSQL\obj\Debug\CommonSQL.csproj.CoreCompileInputs.cache
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\CommonSQL\obj\Debug\CommonSQL.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\CommonSQL\obj\Debug\CommonSQL.pdb

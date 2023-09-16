@@ -37,15 +37,16 @@
             this.lblExporter = new System.Windows.Forms.Label();
             this.lblQueryCollection = new System.Windows.Forms.Label();
             this.cbQueryCollection = new System.Windows.Forms.ComboBox();
+            this.btn_sql_gen = new System.Windows.Forms.Button();
             this.gbGeneral.SuspendLayout();
             this.gbValidator.SuspendLayout();
             this.SuspendLayout();
             // 
             // bt_find_guid
             // 
-            this.bt_find_guid.Location = new System.Drawing.Point(20, 30);
+            this.bt_find_guid.Location = new System.Drawing.Point(20, 60);
             this.bt_find_guid.Name = "bt_find_guid";
-            this.bt_find_guid.Size = new System.Drawing.Size(75, 23);
+            this.bt_find_guid.Size = new System.Drawing.Size(85, 23);
             this.bt_find_guid.TabIndex = 0;
             this.bt_find_guid.Text = "Find GUID";
             this.bt_find_guid.UseVisualStyleBackColor = true;
@@ -53,9 +54,9 @@
             // 
             // bt_help
             // 
-            this.bt_help.Location = new System.Drawing.Point(20, 60);
+            this.bt_help.Location = new System.Drawing.Point(20, 90);
             this.bt_help.Name = "bt_help";
-            this.bt_help.Size = new System.Drawing.Size(75, 23);
+            this.bt_help.Size = new System.Drawing.Size(85, 23);
             this.bt_help.TabIndex = 1;
             this.bt_help.Text = "Help";
             this.bt_help.UseVisualStyleBackColor = true;
@@ -63,11 +64,12 @@
             // 
             // gbGeneral
             // 
+            this.gbGeneral.Controls.Add(this.btn_sql_gen);
             this.gbGeneral.Controls.Add(this.bt_help);
             this.gbGeneral.Controls.Add(this.bt_find_guid);
             this.gbGeneral.Location = new System.Drawing.Point(20, 20);
             this.gbGeneral.Name = "gbGeneral";
-            this.gbGeneral.Size = new System.Drawing.Size(120, 100);
+            this.gbGeneral.Size = new System.Drawing.Size(130, 130);
             this.gbGeneral.TabIndex = 3;
             this.gbGeneral.TabStop = false;
             this.gbGeneral.Text = "General";
@@ -81,7 +83,7 @@
             this.gbValidator.Controls.Add(this.lblExporter);
             this.gbValidator.Controls.Add(this.lblQueryCollection);
             this.gbValidator.Controls.Add(this.cbQueryCollection);
-            this.gbValidator.Location = new System.Drawing.Point(160, 20);
+            this.gbValidator.Location = new System.Drawing.Point(170, 20);
             this.gbValidator.Name = "gbValidator";
             this.gbValidator.Size = new System.Drawing.Size(170, 210);
             this.gbValidator.TabIndex = 4;
@@ -136,6 +138,16 @@
             this.cbQueryCollection.Size = new System.Drawing.Size(130, 21);
             this.cbQueryCollection.TabIndex = 0;
             // 
+            // btn_sql_gen
+            // 
+            this.btn_sql_gen.Location = new System.Drawing.Point(20, 30);
+            this.btn_sql_gen.Name = "btn_sql_gen";
+            this.btn_sql_gen.Size = new System.Drawing.Size(85, 23);
+            this.btn_sql_gen.TabIndex = 2;
+            this.btn_sql_gen.Text = "Generate SQL";
+            this.btn_sql_gen.UseVisualStyleBackColor = true;
+            this.btn_sql_gen.Click += new System.EventHandler(this.btn_sql_gen_Click);
+            // 
             // ModelValidatorUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -143,7 +155,7 @@
             this.Controls.Add(this.gbValidator);
             this.Controls.Add(this.gbGeneral);
             this.Name = "ModelValidatorUserControl";
-            this.Size = new System.Drawing.Size(350, 250);
+            this.Size = new System.Drawing.Size(360, 250);
             this.gbGeneral.ResumeLayout(false);
             this.gbValidator.ResumeLayout(false);
             this.gbValidator.PerformLayout();
@@ -162,5 +174,6 @@
         private System.Windows.Forms.Button btnValidate;
         private System.Windows.Forms.ComboBox cbExporter;
         private System.Windows.Forms.Label lblExporter;
+        private System.Windows.Forms.Button btn_sql_gen;
     }
 }

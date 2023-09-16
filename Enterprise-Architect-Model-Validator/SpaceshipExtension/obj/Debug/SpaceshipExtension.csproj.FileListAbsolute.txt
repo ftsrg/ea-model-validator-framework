@@ -19,3 +19,13 @@ Z:\ea-model-validator\Enterprise-Architect-Model-Validator\SpaceshipExtension\ob
 Z:\ea-model-validator\Enterprise-Architect-Model-Validator\SpaceshipExtension\obj\Debug\SpaceshipExtension.csproj.CopyComplete
 Z:\ea-model-validator\Enterprise-Architect-Model-Validator\SpaceshipExtension\obj\Debug\SpaceshipExtension.dll
 Z:\ea-model-validator\Enterprise-Architect-Model-Validator\SpaceshipExtension\obj\Debug\SpaceshipExtension.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\SpaceshipExtension\bin\Debug\SpaceshipExtension.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\SpaceshipExtension\bin\Debug\SpaceshipExtension.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\SpaceshipExtension\bin\Debug\ModelValidatorLibrary.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\SpaceshipExtension\bin\Debug\ModelValidatorLibrary.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\SpaceshipExtension\obj\Debug\SpaceshipExtension.csproj.AssemblyReference.cache
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\SpaceshipExtension\obj\Debug\SpaceshipExtension.csproj.ResolveComReference.cache
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\SpaceshipExtension\obj\Debug\SpaceshipExtension.csproj.CoreCompileInputs.cache
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\SpaceshipExtension\obj\Debug\SpaceshipExtension.csproj.CopyComplete
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\SpaceshipExtension\obj\Debug\SpaceshipExtension.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\SpaceshipExtension\obj\Debug\SpaceshipExtension.pdb

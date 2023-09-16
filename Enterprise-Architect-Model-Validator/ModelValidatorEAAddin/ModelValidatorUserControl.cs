@@ -17,6 +17,7 @@
  *  limitations under the License.
  */
 using EA;
+using EA_Addin_Model_Validator.SqlGenerator;
 using ModelValidatorLibrary;
 using System;
 using System.Linq;
@@ -68,6 +69,12 @@ namespace ModelValidatorEAAddin
             Package package = Repository.GetTreeSelectedPackage();
             var queryResultsWithName = modelValidator.RunQueries(cbQueryCollection.Text, package);
             modelValidator.ExportQueryResults(cbExporter.Text, queryResultsWithName);
+        }
+
+        private void btn_sql_gen_Click(object sender, EventArgs e)
+        {
+            var sqlGeneratorWizard = new SqlGeneratorWizard(Repository);
+            sqlGeneratorWizard.Show();
         }
     }
 }

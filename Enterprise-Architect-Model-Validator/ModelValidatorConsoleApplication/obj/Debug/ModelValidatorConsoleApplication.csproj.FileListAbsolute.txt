@@ -20,3 +20,14 @@ Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorConsole
 Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorConsoleApplication\obj\Debug\ModelValidatorConsoleApplication.pdb
 Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorConsoleApplication\bin\Debug\CommandLine.dll
 Z:\ea-model-validator\Enterprise-Architect-Model-Validator\ModelValidatorConsoleApplication\bin\Debug\CommandLine.xml
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ModelValidatorConsoleApplication\obj\Debug\ModelValidatorConsoleApplication.csproj.AssemblyReference.cache
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ModelValidatorConsoleApplication\obj\Debug\ModelValidatorConsoleApplication.csproj.CoreCompileInputs.cache
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ModelValidatorConsoleApplication\obj\Debug\ModelValidatorConsoleApplication.exe
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ModelValidatorConsoleApplication\obj\Debug\ModelValidatorConsoleApplication.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ModelValidatorConsoleApplication\bin\Debug\ModelValidatorConsoleApplication.exe
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ModelValidatorConsoleApplication\bin\Debug\ModelValidatorConsoleApplication.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ModelValidatorConsoleApplication\bin\Debug\CommandLine.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ModelValidatorConsoleApplication\bin\Debug\ModelValidatorLibrary.dll
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ModelValidatorConsoleApplication\bin\Debug\ModelValidatorLibrary.pdb
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ModelValidatorConsoleApplication\bin\Debug\CommandLine.xml
+Z:\ea-model-validator-framework\Enterprise-Architect-Model-Validator\ModelValidatorConsoleApplication\obj\Debug\ModelValidatorConsoleApplication.csproj.CopyComplete

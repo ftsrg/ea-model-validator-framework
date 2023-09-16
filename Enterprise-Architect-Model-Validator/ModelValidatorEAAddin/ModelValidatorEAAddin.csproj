@@ -37,7 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Interop.EA">
-      <HintPath>C:\Program Files (x86)\Sparx Systems\EA Trial\Interop.EA.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Sparx Systems\EA\Interop.EA.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
@@ -73,6 +73,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SqlGenerator\SqlGeneratorWizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SqlGenerator\SqlGeneratorWizard.Designer.cs">
+      <DependentUpon>SqlGeneratorWizard.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ModelValidatorHelp.resx">
@@ -85,11 +91,30 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="SqlGenerator\SqlGeneratorWizard.resx">
+      <DependentUpon>SqlGeneratorWizard.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CommonSQL\CommonSQL.csproj">
+      <Project>{362f2c3b-1794-4463-9317-62ad8d4b1c21}</Project>
+      <Name>CommonSQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DDLPackage\DDLPackage.csproj">
+      <Project>{f7fd045b-f9f4-42a8-8e9a-7e6df32ddcbc}</Project>
+      <Name>DDLPackage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ModelValidatorLibrary\ModelValidatorLibrary.csproj">
       <Project>{9900c513-1330-449a-b6ed-25daf2c045f3}</Project>
       <Name>ModelValidatorLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OCLtoSQLTranslator\OCLtoSQLTranslator.csproj">
+      <Project>{ebe5f405-be5e-4ebe-b6fe-ca06170daaa8}</Project>
+      <Name>OCLtoSQLTranslator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TSQLGenerator\TSQLGenerator.csproj">
+      <Project>{c2d80879-b206-4981-8303-a4fac2e85616}</Project>
+      <Name>TSQLGenerator</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
