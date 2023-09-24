@@ -1,2 +1,0 @@
--- Relationships that are displayed in diagrams for which there is more than one relationship in the model. (Invalid link geometry. ITEM: Missing Connector)
-select count(*) as RecCount, DiagramID, ConnectorID,'Duplicate Link Information' as Problem  from t_diagramlinks   group by DiagramID, ConnectorID having count(*) > 1

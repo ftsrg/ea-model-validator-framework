@@ -1,2 +1,0 @@
--- Attributes of a'Problem' element that are not assigned to any element.
-select f.Object_ID, f.Problem from t_objectproblems f left join t_object o on f.Object_ID = o.Object_ID where o.Object_ID is null

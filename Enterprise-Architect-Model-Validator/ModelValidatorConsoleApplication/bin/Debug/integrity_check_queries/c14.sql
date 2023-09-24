@@ -1,2 +1,0 @@
--- Final conditions for methods for which no method has been found.
-select o.*, c.OperationID as OpID, c.PostCondition from t_operationposts c left join t_operation o on c.OperationID = o.OperationID where o.OperationID is null

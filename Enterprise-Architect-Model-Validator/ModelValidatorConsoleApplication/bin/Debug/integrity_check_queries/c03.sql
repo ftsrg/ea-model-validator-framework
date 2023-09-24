@@ -1,2 +1,0 @@
--- Relationships that should be displayed in diagrams, but for which there are no relationships in the model. (Invalid link geometry. ITEM: Missing Connector)
-select Instance_ID, 'Missing Connector' as Problem from t_diagramlinks l left join t_connector c on l.ConnectorID = c.Connector_ID where  c.Connector_ID is null UNION select Instance_ID, 'Missing Diagram' as Problem from t_diagramlinks l left join t_diagram d on l.DiagramID = d.Diagram_ID where  d.Diagram_ID is null

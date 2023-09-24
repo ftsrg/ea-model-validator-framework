@@ -1,1 +1,0 @@
-.\ModelValidatorConsoleApplication.exe --connectionstring "Z:\\ea_models\\simple_sysml.eapx" --packageguid "{93C6743D-3E6B-43bf-8F8D-98EA89EC6789}" --querycollection "Integrity Check" --exporter "Debug"

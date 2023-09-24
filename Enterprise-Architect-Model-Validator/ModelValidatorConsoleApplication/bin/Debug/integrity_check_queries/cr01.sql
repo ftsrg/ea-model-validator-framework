@@ -1,2 +1,0 @@
--- More than one time in x_ref table.
-Select Client, `Type`, Name, Behavior from t_xref where Name in ('Stereotypes', 'CustomProperties') Group by Client, `Type`, Name, Behavior having count(XRefID) >1

@@ -1,2 +1,0 @@
--- Check the consistency between the relationships in the model and those presented in the diagrams. (Invalid link geometry. ITEM: Missing Connector)
-SELECT t_connector.Connector_ID, t_connector.Connector_Type, t_diagram.Diagram_ID, t_connector.DiagramID FROM t_connector LEFT JOIN t_diagram ON t_connector.DiagramID = t_diagram.Diagram_ID WHERE (((t_diagram.Diagram_ID) Is Null) AND ((t_connector.DiagramID)<>0))
