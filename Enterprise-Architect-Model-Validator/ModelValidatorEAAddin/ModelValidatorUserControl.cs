@@ -51,6 +51,12 @@ namespace ModelValidatorEAAddin
                 cbExporter.Items.Add(exporter.Metadata.Name);
             }
             cbExporter.Text = modelValidator.Exporters.FirstOrDefault().Metadata.Name;
+
+            foreach (var corrector in modelValidator.Correctors)
+            {
+                cbCorrector.Items.Add(corrector.Metadata.Name);
+            }
+            cbCorrector.Text = modelValidator.Correctors.FirstOrDefault().Metadata.Name;
         }
 
         private void bt_find_guid_Click(object sender, EventArgs e)
@@ -68,7 +74,16 @@ namespace ModelValidatorEAAddin
         {
             Package package = Repository.GetTreeSelectedPackage();
             var queryResultsWithName = modelValidator.RunQueries(cbQueryCollection.Text, package);
-            modelValidator.ExportQueryResults(cbExporter.Text, queryResultsWithName);
+
+            if (rbExporter.Checked)
+            {
+                modelValidator.ExportQueryResults(cbExporter.Text, queryResultsWithName);
+            }
+            else if (rbCorrector.Checked)
+            {
+                modelValidator.CorrectQueryResults(cbCorrector.Text, queryResultsWithName);
+                MessageBox.Show("Correction complete.");
+            }
         }
 
         private void btn_sql_gen_Click(object sender, EventArgs e)

@@ -25,7 +25,8 @@ namespace ModelValidatorEAAddin
         public ModelValidatorHelp()
         {
             InitializeComponent();
-            pictureBox1.Image = Properties.Resources.help;
+            pbAddin.Image = Properties.Resources.addin;
+            pbWizard.Image = Properties.Resources.wizard;
         }
     }
 }

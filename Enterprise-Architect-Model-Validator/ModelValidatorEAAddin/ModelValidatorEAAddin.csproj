@@ -121,7 +121,10 @@
     <None Include="Resources\help.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="help_files\help.png" />
+    <None Include="help_files\addin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="help_files\wizard.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

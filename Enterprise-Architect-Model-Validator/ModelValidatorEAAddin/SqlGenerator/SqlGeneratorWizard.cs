@@ -10,7 +10,6 @@ namespace EA_Addin_Model_Validator.SqlGenerator
     {
         private Repository repository;
         private GenerationSettings settings;
-        private bool checkCancel = true;
 
         public SqlGeneratorWizard(Repository repository)
         {
@@ -22,31 +21,8 @@ namespace EA_Addin_Model_Validator.SqlGenerator
             tbSQL.TextChanged += (object sender, EventArgs e) => { tbOCL.Enabled = false; };
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            SaveFileDialog saveFileDialog = new SaveFileDialog
-            {
-                Filter = "*.sql|*.*",
-                FilterIndex = 0,
-                Title = "Save the created query",
-                DefaultExt = "sql",
-                FileName = tbQueryName.Text + ".sql",
-            };
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                System.IO.File.WriteAllText(saveFileDialog.FileName, tbSQL.Text);
-                Close();
-            }
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
         private void btnTranslate_Click(object sender, EventArgs e)
         {
-            checkCancel = false;
             string back = "< Back";
             string translate = "Translate >";
             if (btnTranslate.Text == back)
@@ -61,6 +37,7 @@ namespace EA_Addin_Model_Validator.SqlGenerator
                 btnTranslate.Text = back;
             }
             btnCopySQL.Enabled = true;
+            btnSave.Enabled = true;
         }
 
         private void translateSQL2OCL()
@@ -94,15 +71,26 @@ namespace EA_Addin_Model_Validator.SqlGenerator
             tbSQL.Text = sql;
         }
 
-        private void tabControl_Selecting(object sender, TabControlCancelEventArgs e)
-        {
-            e.Cancel = checkCancel;
-            checkCancel = true;
-        }
-
         private void btnCopySQL_Click(object sender, EventArgs e)
         {
-            Clipboard.SetData(DataFormats.Text, (object)tbOCL);
+            Clipboard.SetData(DataFormats.Text, (object)tbSQL);
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "*.sql|*.*",
+                FilterIndex = 0,
+                Title = "Save the created query",
+                DefaultExt = "sql",
+                FileName = tbQueryName.Text + ".sql",
+            };
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                System.IO.File.WriteAllText(saveFileDialog.FileName, tbSQL.Text);
+                Close();
+            }
         }
     }
 }
